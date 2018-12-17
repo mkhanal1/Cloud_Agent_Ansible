@@ -4,7 +4,6 @@ Deploy Qualys Cloud Agent in Linux instances using Ansible-Playbook
 The playbook InstallQCA.yml can be used to deploy QCA across the assests included in your "host" file.
 
 Input parameters which are required are:
-
 private-key = private-key to access the instances ( ansible works via SSH)
 ssh_user = username to login into the instance
 URL = the URL where the file is hosted eg: Webserver, S3, Blob Storage, Cloud Storage
