@@ -1,5 +1,3 @@
-# Examples:  ansible-playbook -i hosts qca-install.yml --private-key=Mikesh.pem --extra-vars "ssh_user=ec2-user ansible_distribution=RPM URL=https://s3.amazonaws.com/qualys-agent-deploy/qualys-cloud-agent.x86_64_qg2.rpm ActivationID=8586-e781 CustomerID=4fe4-7b79"
-
 - name: Install QCA Agent on Linux targets
   hosts: all
   gather_facts: true
