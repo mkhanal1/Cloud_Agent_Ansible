@@ -1,0 +1,62 @@
+# Examples:  ansible-playbook -i hosts qca-install.yml --private-key=Mikesh.pem --extra-vars "ssh_user=ec2-user ansible_distribution=RPM URL=https://s3.amazonaws.com/qualys-agent-deploy/qualys-cloud-agent.x86_64_qg2.rpm ActivationID=8586-e781 CustomerID=4fe4-7b79"
+
+- name: Install QCA Agent on Linux targets
+  hosts: all
+  gather_facts: true
+  remote_user: "{{ ssh_user }}"
+  tasks:
+
+    - debug: msg= {{ ansible_distribution }}
+
+    - name: Check if Qualys Cloud Agent is Installed Already
+      command: systemctl status qualys-cloud-agent
+      register: init_status_result
+      ignore_errors: yes
+
+    - name: Create Directory for Downloading Qualys Cloud Agent
+      sudo: yes
+      sudo_user: root
+      file:
+        path: /usr/qualys/
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: 0777
+        recurse: no
+
+    - name: Debian Download Latest Version of Qualys Cloud Agent
+      get_url:
+        url: "{{ URL  }}"
+        dest: /usr/qualys/qualys-cloud-agent.x86_64.deb
+        mode: 0777
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+    - name: RPM Download Latest Version of Qualys Cloud Agent
+      get_url:
+        url: "{{ URL  }}"
+        dest: /usr/qualys/qualys-cloud-agent.x86_64.rpm
+        mode: 0755
+      when: ansible_distribution == 'Redhat' or ansible_distribution == 'CentOS' or ansible_distribution == 'Amazon'
+
+    - name: Execute the Installation Script on RPM
+      command: rpm -ivh qualys-cloud-agent.x86_64.rpm
+      become: yes
+      become_method: sudo
+      args:
+        chdir: /usr/qualys/
+      when: ansible_distribution == 'RedHat'
+
+    - name: Execute the Installation Script on Debian
+      command: /usr/sbin/dpkg --install qualys-cloud-agent.x86_64.deb
+      become: yes
+      become_method: sudo
+      args:
+        chdir: /usr/qualys
+      when: ansible_distribution == 'Debian'
+
+    - name: Execute the Activation Script
+      shell: /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh ActivationId={{ActivationID}} CustomerId={{CustomerID}}
+      become: yes
+      become_method: sudo
+
+    - local_action: wait_for host={{ ansible_ssh_host  }} port=22 state=started
