@@ -1,7 +1,7 @@
 # Deploy_qualys_Ansible
 Deploy Qualys Cloud Agent in Linux instances using Ansible-Playbook.
 
-The playbook InstallQCA.yml can be used to deploy QCA across the assests included in your "host" file.
+The playbook InstallQCA.yml can be used to deploy QCA across the assests included in your "host" file. Additionally you can use the tags to deploy QCA on your instances.
 
 Input parameters which are required are:
 
