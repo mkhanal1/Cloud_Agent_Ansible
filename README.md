@@ -1,4 +1,4 @@
-# Deploy_qualys_Ansible
+# Cloud_Agent_Ansible
 Deploy Qualys Cloud Agent (CA) on Linux instances using Ansible-Playbook.
 
 ## License
