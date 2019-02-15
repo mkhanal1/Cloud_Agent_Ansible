@@ -18,7 +18,7 @@ The required input parameters are:
 ## Usage 
 ansible-playbook -i hosts qca-install.yml --private-key=Mikesh.pem --extra-vars "ssh_user=ec2-user  URL=https://s3.amazonaws.com/REPLACE_ME_BUCKET/REPLACE_ME_FILE ActivationID=xxxx-xxxx CustomerID=xxxx-xxxx"
 
-## Important links:
+## Important links
 * [Dynamic Amazon EC2 Inventory Management for Ansible](https://aws.amazon.com/blogs/apn/getting-started-with-ansible-and-dynamic-amazon-ec2-inventory-management/)
 * [Running Ansible Playbooks using EC2 Systems Manager](https://aws.amazon.com/blogs/mt/running-ansible-playbooks-using-ec2-systems-manager-run-command-and-state-manager/)
 * [Ansible for managing AWS:](https://docs.ansible.com/ansible/latest/scenario_guides/guide_aws.html)
